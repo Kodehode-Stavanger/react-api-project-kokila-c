@@ -38,20 +38,22 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>Meal Planner</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={ingredients}
-          onChange={handleInputChange}
-          placeholder="Enter ingredients (comma separated)"
-        />
-        <button type="submit" disabled={loading}>
-          Search
-        </button>
-      </form>
-      {loading && <p>Loading...</p>}
+    <div className="container">
+      <div className="search-container">
+        <h1>Meal Planner</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={ingredients}
+            onChange={handleInputChange}
+            placeholder="Enter ingredients (comma separated)"
+          />
+          <button type="submit" disabled={loading}>
+            Search
+          </button>
+        </form>
+        {loading && <p>Loading...</p>}
+      </div>
       <div className="recipe-container">
         {recipes.map((recipe) => (
           <div className="recipe-box" key={recipe.uri}>

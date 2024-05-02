@@ -1,3 +1,35 @@
+/* App.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #296645;
+}
+
+.search-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  width: 300px;
+  height: 40px;
+  font-size: 18px;
+}
+button[type="submit"] {
+  height: 40px;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
 .recipe-container {
   display: flex;
   flex-wrap: wrap;
