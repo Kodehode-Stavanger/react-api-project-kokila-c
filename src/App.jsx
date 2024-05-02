@@ -1,55 +1,71 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import SearchBar from "./SearchBar";
-import RecipeList from "./RecipeList";
-import RecipeDetails from "./RecipeDetails";
 
 const App = () => {
   const [ingredients, setIngredients] = useState("");
   const [recipes, setRecipes] = useState([]);
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const apiKey = process.env.REACT_APP_SPOONACULAR_API_KEY;
 
-  const searchRecipes = async (ingredients) => {
+  const handleInputChange = (event) => {
+    setIngredients(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
     try {
-      setLoading(true);
-      const response = await axios.get(
-        `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=10&apiKey=${apiKey}`
-      );
-      setRecipes(response.data);
-      setLoading(false);
+      const response = await axios.get("https://api.edamam.com/search", {
+        params: {
+          q: ingredients,
+          app_id: import.meta.env.VITE_EDAMAM_APP_ID,
+          app_key: import.meta.env.VITE_EDAMAM_APP_KEY,
+        },
+      });
+
+      if (response.data.hits) {
+        setRecipes(response.data.hits.map((hit) => hit.recipe));
+      } else {
+        // Handle case when no recipes are found
+        setRecipes([]);
+      }
     } catch (error) {
-      setError(error.message);
-      setLoading(false);
+      console.error("Error fetching recipes:", error);
     }
-  };
 
-  useEffect(() => {
-    if (ingredients !== "") {
-      searchRecipes(ingredients);
-    }
-  }, [ingredients]); // Run the effect whenever ingredients change
-
-  const handleViewDetails = (recipe) => {
-    setSelectedRecipe(recipe);
-  };
-
-  const handleCloseDetails = () => {
-    setSelectedRecipe(null);
+    setLoading(false);
   };
 
   return (
     <div>
-      <h1>Vegetarian Meal Planner</h1>
-      <SearchBar onSearch={setIngredients} />
+      <h1>Meal Planner</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={ingredients}
+          onChange={handleInputChange}
+          placeholder="Enter ingredients (comma separated)"
+        />
+        <button type="submit" disabled={loading}>
+          Search
+        </button>
+      </form>
       {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      <RecipeList recipes={recipes} onViewDetails={handleViewDetails} />
-      {selectedRecipe && (
-        <RecipeDetails recipe={selectedRecipe} onClose={handleCloseDetails} />
-      )}
+      <div>
+        {recipes.map((recipe) => (
+          <div key={recipe.uri}>
+            <h2>{recipe.label}</h2>
+            <ul>
+              {recipe.ingredients.map((ingredient) => (
+                <li key={ingredient}>{ingredient.text}</li>
+              ))}
+            </ul>
+            <a href={recipe.url} target="_blank" rel="noopener noreferrer">
+              View Recipe
+            </a>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
