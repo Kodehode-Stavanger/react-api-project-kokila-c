@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./App.css"; // Import CSS file for styling
 
 const App = () => {
   const [ingredients, setIngredients] = useState("");
@@ -51,13 +52,14 @@ const App = () => {
         </button>
       </form>
       {loading && <p>Loading...</p>}
-      <div>
+      <div className="recipe-container">
         {recipes.map((recipe) => (
-          <div key={recipe.uri}>
+          <div className="recipe-box" key={recipe.uri}>
             <h2>{recipe.label}</h2>
+            <img src={recipe.image} alt={recipe.label} />
             <ul>
-              {recipe.ingredients.map((ingredient) => (
-                <li key={ingredient}>{ingredient.text}</li>
+              {recipe.ingredients.map((ingredient, index) => (
+                <li key={index}>{ingredient.text}</li>
               ))}
             </ul>
             <a href={recipe.url} target="_blank" rel="noopener noreferrer">
