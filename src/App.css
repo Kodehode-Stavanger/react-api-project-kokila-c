@@ -1,12 +1,15 @@
 /* App.css */
+body {
+  background-color: #213f2e;
+  color: rgb(190, 166, 137);
+}
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #296645;
+  height: 90%;
 }
 
 .search-container {
@@ -17,6 +20,7 @@
 h1 {
   font-size: 36px;
   margin-bottom: 20px;
+  color: rgb(203, 56, 105);
 }
 
 input[type="text"] {
@@ -24,6 +28,7 @@ input[type="text"] {
   height: 40px;
   font-size: 18px;
 }
+
 button[type="submit"] {
   height: 40px;
   font-size: 18px;

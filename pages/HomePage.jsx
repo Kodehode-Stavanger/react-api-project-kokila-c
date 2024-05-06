@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "./App.css"; // Import CSS file for styling
+import { Link } from "react-router-dom";
 
-const App = () => {
+import axios from "axios";
+import "../src/App.css"; // Import CSS file for styling
+
+const HomePage = () => {
   const [ingredients, setIngredients] = useState("");
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -74,4 +76,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default HomePage;
